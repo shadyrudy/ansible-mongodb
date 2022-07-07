@@ -1,0 +1,31 @@
+---
+# Copy the mongodb keyfile to /etc/mongodb-keyfile on all servers
+- hosts: triserver
+  become_user: root
+  become: yes
+  vars:
+     replicationSetName: ump001-rs001
+  tasks:
+    - name: Copy keyfile to /etc/mongodb-keyfile
+      copy:
+        src: "{{ playbook_dir }}/files/mongodb-keyfile"
+        dest: /etc/mongodb-keyfile
+    - name: Fix keyfile permissions
+      file:
+        path: /etc/mongodb-keyfile
+        state: file
+        owner: mongod
+        group: mongod
+        mode: 0600 
+    - name: use Jinja2 template to copy mongod.conf
+      template:
+        src: mongod.conf.j2
+        dest: /etc/mongod.conf
+    - name: Fix mongod.conf permissions
+      file:
+        state: file
+        path: /etc/mongod.conf
+        owner: mongod
+        group: mongod
+        mode: 0644
+...

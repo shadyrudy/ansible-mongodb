@@ -1,0 +1,19 @@
+---
+# Basic install for MongoDB
+# https://cloudmesh.github.io/classes/lesson/devops/ansible/ansible-appendix.html
+- hosts: triserver
+  remote_user: ubuntu
+  become: yes
+  tasks:
+  - name: Import the public key used by the package management system
+    apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id="20691eec35216c63caf66ce1656408e390cfb1f5" state=present
+  - name: Add MongoDB repository
+    apt_repository: repo='deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse' state=present
+  - name: install mongodb
+    apt: pkg=mongodb-org state=latest update_cache=yes
+    notify:
+    - start mongodb
+  handlers:
+    - name: start mongodb
+      service: name=mongod state=started
+...

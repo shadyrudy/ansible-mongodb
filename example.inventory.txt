@@ -1,0 +1,10 @@
+[dbservers]
+10.1.0.1 ansible_python_interpreter=/usr/bin/python3
+10.1.0.2
+10.1.0.3
+[primary]
+10.1.0.1
+[secondary]
+10.1.0.2
+[arbiter]
+10.1.0.3

@@ -1,0 +1,16 @@
+---
+# Create the root user. Use a more secure password
+# Template version is next 
+- hosts: triserver
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: Create 'admin' database user with name 'dba2' and password '1234512345'.
+    community.mongodb.mongodb_user:
+      database: admin
+      name: dba2
+      password: ABCABCABC
+      state: present
+      roles: root
+...
