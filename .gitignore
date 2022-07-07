@@ -1,0 +1,4 @@
+*.cer
+*.pem
+files/mongodb-keyfile
+inventory.txt

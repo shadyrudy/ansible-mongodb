@@ -1,0 +1,29 @@
+---
+# Create the required directories and files
+- hosts: triserver
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Create mongodb directories
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: mongod
+      group: mongod
+      mode: 0775
+    loop:
+      - /data/mongodb/data
+      - /var/log/mongodb
+      - /var/run/mongodb
+
+  - name: Create PID files
+    file:
+      path: "{{ item }}"
+      state: touch
+      owner: mongod
+      group: mongod
+      mode: 0644
+    loop:
+      - /var/run/mongod.pid
+...
