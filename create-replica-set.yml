@@ -1,0 +1,20 @@
+---
+# Create the required directories and files
+- hosts: rs001
+  become: yes
+  become_user: root
+  vars:
+    cfgserver_port: 27017
+    mongo_port: 27017
+  tasks:
+  - name: Render the template to initiate replica set
+    template:
+      src:  templates/init-rs.js.j2
+      dest: /tmp/init-rs.js
+      mode: 0644
+    when: mongodb_primary is defined and mongodb_primary
+
+  - name: Run the init command for the replica set
+    shell: mongo --host localhost --port {{ mongo_port }} < /tmp/init-rs.js
+    when: mongodb_primary is defined and mongodb_primary
+...

@@ -70,3 +70,15 @@ To run the playbooks, you'll need to install the following packages.
 Initial commit. 
 Added all files
 Excluded secrets and made a generic inventory file.
+
+## 2022-07-11
+Added file checker to check permissions
+Added file fixer to fix permissions
+Added three versoins of mongod.conf
+Modified keyfile to copy 1 version of mongod.conf
+Modified create replicate set playbook
+Modified percona install playbook
+Modified software install playbook
+Updated restart mongod script
+Added second inventory file
+Updated replica set init script

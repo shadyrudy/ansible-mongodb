@@ -1,0 +1,153 @@
+---
+# Create the required directories and files
+- hosts: dbservers
+  become: yes
+  become_user: ubuntu
+
+  tasks:
+# Check mongod.conf
+  - name: Get stats of a mongod.conf
+    ansible.builtin.stat:
+      path: /etc/mongod.conf
+    register: co
+  - name: Fail if the mongod.conf does not exist
+    ansible.builtin.fail:
+      msg: "The file mongod.conf does not exist."
+    when: co.stat.isreg is not defined 
+  - name: Fail if mongod.conf does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "/etc/mongod.conf File ownership has changed to {{ co.stat.pw_name }}"
+    when: co.stat.pw_name != 'mongod'
+
+# Check mongod.log 
+  - name: Get stats of a mongod.log
+    ansible.builtin.stat:
+      path: /var/log/mongodb/mongod.log
+    register: lg
+  - name: Fail if the mongod.log does not exist
+    ansible.builtin.fail:
+      msg: "The file mongod.log does not exist."
+    when: lg.stat.isreg is not defined
+  - name: Fail if the mongod.log does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "mongod.log file ownership has changed to {{ lg.stat.pw_name }}"
+    when: lg.stat.pw_name != 'mongod'
+
+# Check mongodb-27017.sock
+  - name: Get stats of a mongodb-27017.sock
+    ansible.builtin.stat:
+      path: /tmp/mongodb-27017.sock
+    register: so
+  - name: Fail if mongodb-27017.sock does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "mongodb-27017.sock file ownership has changed to {{ so.stat.pw_name }}"
+    when: so.stat.pw_name != 'mongod'
+
+# Check the data directory
+  - name: Get stats of the data directory
+    ansible.builtin.stat:
+      path: /data/mongodb/data
+    register: p
+  - name: Fail if the data directory does not exist
+    ansible.builtin.fail:
+      msg: "Path /data/mongodb/data does not exist"
+    when: p.stat.isdir is not defined
+
+# Check WiredTiger file
+  - name: Get stats of a WiredTiger
+    ansible.builtin.stat:
+      path: /data/mongodb/data/WiredTiger
+    register: wta
+  - name: Fail if the WiredTiger does not exist
+    ansible.builtin.fail:
+      msg: "The file WiredTiger does not exist."
+    when: wta.stat.isreg is not defined
+  - name: Fail if the WiredTiger does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "WiredTiger file ownership has changed to {{ wta.stat.pw_name }}"
+    when: wta.stat.pw_name != 'mongod'
+
+# Check WiredTiger.lock file
+  - name: Get stats of a WiredTiger.lock
+    ansible.builtin.stat:
+      path: /data/mongodb/data/WiredTiger.lock
+    register: wtl
+  - name: Fail if the WiredTiger.lock does not exist
+    ansible.builtin.fail:
+      msg: "The file WiredTiger.lock does not exist."
+    when: wtl.stat.isreg is not defined
+  - name: Fail if the WiredTiger.lock does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "WiredTiger.lock file ownership has changed to {{ wtl.stat.pw_name }}"
+    when: wtl.stat.pw_name != 'mongod'
+
+# Check WiredTiger.turtle file
+  - name: Get stats of a WiredTiger.turtle
+    ansible.builtin.stat:
+      path: /data/mongodb/data/WiredTiger.turtle
+    register: wtt
+  - name: Fail if the WiredTiger.turtle does not exist
+    ansible.builtin.fail:
+      msg: "The file WiredTiger.turtle does not exist."
+    when: wtt.stat.isreg is not defined
+  - name: Fail if the WiredTiger.turtle does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "WiredTiger.turtle file ownership has changed to {{ wtt.stat.pw_name }}"
+    when: wtt.stat.pw_name != 'mongod'
+
+# Check WiredTiger.wt file
+  - name: Get stats of a WiredTiger.wt
+    ansible.builtin.stat:
+      path: /data/mongodb/data/WiredTiger.wt
+    register: wtwt
+  - name: Fail if the WiredTiger.wt does not exist
+    ansible.builtin.fail:
+      msg: "The file WiredTiger.wt does not exist."
+    when: wtwt.stat.isreg is not defined
+  - name: Fail if the WiredTiger.wt does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "WiredTiger.wt file ownership has changed to {{ wtwt.stat.pw_name }}"
+    when: wtwt.stat.pw_name != 'mongod'
+
+# Check WiredTigerHS.wt file
+  - name: Get stats of a WiredTigerHS.wt
+    ansible.builtin.stat:
+      path: /data/mongodb/data/WiredTigerHS.wt
+    register: wths
+  - name: Fail if the WiredTigerHS.wt does not exist
+    ansible.builtin.fail:
+      msg: "The file WiredTigerHS.wt does not exist."
+    when: wths.stat.isreg is not defined
+  - name: Fail if the WiredTigerHS.wt does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "WiredTigerHS.wt file ownership has changed to {{ wths.stat.pw_name }}"
+    when: wths.stat.pw_name != 'mongod'
+
+# Check mongod.lock file
+  - name: Get stats of a mongod.lock
+    ansible.builtin.stat:
+      path: /data/mongodb/data/mongod.lock
+    register: mll
+  - name: Fail if the mongod.lock does not exist
+    ansible.builtin.fail:
+      msg: "The file mongod.lock does not exist."
+    when: mll.stat.isreg is not defined
+  - name: Fail if the mongod.lock does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "mongod.lock file ownership has changed to {{ mll.stat.pw_name }}"
+    when: mll.stat.pw_name != 'mongod'
+
+# Check the journal directory
+  - name: Get stats of the journal directory
+    ansible.builtin.stat:
+      path: /data/mongodb/data/journal
+    register: jo
+  - name: Fail if the journal directory does not exist
+    ansible.builtin.fail:
+      msg: "Path /data/mongodb/data/journal does not exist"
+    when: jo.stat.isdir is not defined
+  - name: Fail if the journal directory does not belong to 'mongod'
+    ansible.builtin.fail:
+      msg: "/data/mongodb/data/journal ownership has changed to {{ jo.stat.pw_name }}"
+    when: jo.stat.pw_name != 'mongod'
+...

@@ -1,24 +1,19 @@
 ---
-# Installs the Percona distribution of MongoDB
-- hosts: triserver
+# Installs Percona MongoDB
+- hosts: dbservers
   remote_user: ubuntu
   become: yes
   tasks:
-    - name: Update Repo Mongo DB Percona
-      shell: |
-        wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
-    - name: Get latest Percona releases
-      shell: |
-        sudo dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
-    - name: Enable 5.0 Release
-      shell: |
-        sudo percona-release enable psmdb-50 release
+    - name: Get latest percona release tool.
+      shell: wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
+    - name: Get latest Percona release information
+      shell: dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
+    - name: Enable Mongodb 5.0 in the Percona Release tool
+      shell: sudo percona-release enable psmdb-50 release
     - name: Update all repos
-      shell: |
-        sudo apt update
+      shell: sudo apt update
     - name: Get Mongosh Packages
-      shell: |
-        wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add 
+      shell: wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add 
     - name: Install packages
       apt:
         name: "{{ item }}"
@@ -26,6 +21,5 @@
       loop:
         - percona-server-mongodb
     - name: Start Percona MongoDB after install
-      shell: |
-        sudo systemctl start mongod
+      shell: systemctl start mongod
 ...

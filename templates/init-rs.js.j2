@@ -2,14 +2,14 @@ rs.initiate(
 {
     _id: "{{ group_names[0] }}",
     members: [
-        {% for h in groups[group_names[0] ]%}
-          { _id: {{ loop.index }}, host : "{{ h }}":
-            {%if hostvars[inventory_hostname].group_names[0].startswith('shard') %}
-              {{ shard_port }}
-            {% else %}
-              {{ cfgserver_port }} 
-            {% endif %}",
-          priority: 1 } {% if not loop.last %},{% endif %}
-        {% endfor %}        
-    ]
+{% for h in groups[ group_names[0] ]%}
+          { _id: {{ loop.index }}
+            , host : "{{ h }}:{{ cfgserver_port }}"
+	    , priority: 1 
+          }
+{% if not loop.last %}
+        ,
+{% endif %}
+{% endfor %}
+     ]
 });

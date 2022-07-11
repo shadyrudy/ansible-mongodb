@@ -1,0 +1,57 @@
+# mongod.conf for percona
+# For Documentation see: 
+# https://www.mongodb.com/docs/manual/reference/configuration-options/
+# Replication is enabled
+# Authentication is enabled
+
+# Network Interfaces
+net:
+  bindIp: 0.0.0.0
+  ipv6: false
+  port: 27017
+  maxIncomingConnections: 1000
+  # bindIpAll: <boolean>
+  # wireObjectCheck: <boolean>
+
+processManagement:
+   fork: true
+   pidFilePath: /var/run/mongod.pid 
+
+#replication:
+#   oplogSizeMB: 1024
+#   replSetName: {{ replicationSetName }}
+
+security:
+#  authorization: enabled
+  keyFile: /etc/mongodb-keyfile
+#  javascriptEnabled: false
+
+storage:
+  dbPath: /data/mongodb/data
+  directoryPerDB: true
+  engine: wiredTiger
+  journal:
+    enabled: true
+    commitIntervalMs: 100
+  wiredTiger:
+    engineConfig:
+      directoryForIndexes: false
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: /var/log/mongodb/mongod.log
+
+operationProfiling:
+  slowOpThresholdMs: 100
+  mode: slowOp
+  slowOpSampleRate: 0.1
+
+#sharding:
+
+## Enterprise-Only options:
+
+#auditLog
+
+#snmp

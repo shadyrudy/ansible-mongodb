@@ -1,6 +1,6 @@
 ---
 # Create the required directories and files
-- hosts: triserver
+- hosts: dbservers
   become: yes
   become_user: root
 
@@ -15,7 +15,6 @@
     loop:
       - /data/mongodb/data
       - /var/log/mongodb
-      - /var/run/mongodb
 
   - name: Create PID files
     file:

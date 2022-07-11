@@ -1,15 +1,15 @@
 ---
-# Create the root user. Use a more secure password
-# Template version is next 
-- hosts: triserver
+# Create the root user before enabling security
+# The new mongod.conf should be on the server, which enables security
+- hosts: primary
   remote_user: ubuntu
   become: yes
 
   tasks:
-  - name: Create 'admin' database user with name 'dba2' and password '1234512345'.
+  - name: Create 'admin' database user with name 'dba' and password 'ABCABCABC'.
     community.mongodb.mongodb_user:
       database: admin
-      name: dba2
+      name: dba
       password: ABCABCABC
       state: present
       roles: root

@@ -1,10 +1,10 @@
 ---
 # Copy the mongodb keyfile to /etc/mongodb-keyfile on all servers
-- hosts: triserver
+- hosts: dbservers
   become_user: root
   become: yes
   vars:
-     replicationSetName: ump001-rs001
+     replicationSetName: rs001
   tasks:
     - name: Copy keyfile to /etc/mongodb-keyfile
       copy:
@@ -19,7 +19,7 @@
         mode: 0600 
     - name: use Jinja2 template to copy mongod.conf
       template:
-        src: mongod.conf.j2
+        src: keyfile.noRepl.noAuth.mongod.conf.j2
         dest: /etc/mongod.conf
     - name: Fix mongod.conf permissions
       file:

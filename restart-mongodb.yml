@@ -1,0 +1,12 @@
+---
+# Restarts MongoDB instances
+- hosts: dbservers
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+    - name: Stop MongoDB
+      shell: sudo systemctl stop mongod
+    - name: Restart mongodb with mongod.conf
+      shell: sudo systemctl start mongod
+...

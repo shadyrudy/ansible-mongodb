@@ -1,0 +1,19 @@
+---
+# Fixes file and directory ownership
+- hosts: dbservers
+  remote_user: ubuntu
+  become: yes
+  tasks:
+    - name: Update directories and files   
+      block: 
+      - name: Update data directory
+        shell: chown mongod:mongod -R /data/mongodb/data/*
+      - name: Update wiredtiger files
+        shell: chown mongod:mongod -R /data/mongodb/data/WiredTiger.*
+      - name: Update log directory
+        shell: chown mongod:mongod -R /var/log/mongodb/*
+      - name: Update sock file
+        shell: chown mongod:mongod /tmp/mongodb-27017.sock
+      become: true
+      become_user: root
+...

@@ -1,0 +1,21 @@
+---
+# Copy the mongodb.conf file that has
+# keyfile, replication, no authentication
+- hosts: rs001
+  become_user: root
+  become: yes
+  vars:
+     replicationSetName: rs001
+  tasks:
+    - name: Use Jinja2 copy the the mongod.conf with keyfile, replication, no auth
+      template:
+        src: keyfile.Repl.noAuth.mongod.conf.j2
+        dest: /etc/mongod.conf
+    - name: Fix mongod.conf permissions
+      file:
+        state: file
+        path: /etc/mongod.conf
+        owner: mongod
+        group: mongod
+        mode: 0644
+...

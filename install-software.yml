@@ -1,8 +1,6 @@
 ---
 # The following script installs some required software
-# This includes the latest verson of Python and 
-# the PIP package Pymongo. This is for Ubuntu.
-- hosts: triserver
+- hosts: dbservers
   become_user: root
   become: yes
   
