@@ -1,0 +1,57 @@
+# Installs Percona Backup for MongoDB
+# https://docs.percona.com/percona-backup-mongodb/installation.html#install-pbm-on-debian-and-ubuntu
+# Ubuntu Variables: 
+# rhel_ubuntu_dir  = default
+# For rhel_ubuntu_lib Ubuntu = /lib/systemd/system/pbm-agent.service
+# Red Hat Variables: 
+# rhel_ubuntu_dir = sysconfig 
+# rhel_ubuntu_lib = /usr/lib/systemd/system/pbm-agent.service
+- hosts: dbservers
+  remote_user: ubuntu
+  become: yes
+  vars:
+    rhel_ubuntu_dir: default
+    rhel_ubuntu_lib: /lib/systemd/system/pbm-agent.service
+    pbm_user: pbm
+    pbm_user_pwd: 5432154321
+    mongodb_backup_path: /data/backups
+  tasks:
+  - name: Enable Percona Backup for MongoDB in the Percona release tool
+    shell: sudo percona-release enable pbm release
+  - name: Update all repos
+    shell: sudo apt update
+  - name: Install Percona Backup for MongoDB
+    shell: sudo apt install percona-backup-mongodb
+  - name: Copy the pbm-agent.service file using j2
+    template:
+      src: pbm-agent.service.j2
+      dest: "{{ rhel_ubuntu_lib }}"
+      owner: root
+      group: root
+      mode: 0644
+  - name: Copy the pbm-agent file
+    template:
+      src: pbm-agent.j2
+      dest: /etc/{{ rhel_ubuntu_dir }}/pbm-agent
+      owner: root
+      group: root
+      mode: 0640
+  - name: Copy the pbm_config.yaml file
+    template:
+      src: pbm_config.yaml.j2
+      dest: /etc/pbm_config.yaml
+      owner: mongod
+      group: mongod
+      mode: 0600
+  - name: Create backup directory
+    file:
+      path: "{{ mongodb_backup_path }}"
+      state: directory
+      owner: mongod
+      group: mongod
+      mode: 0770
+  - name: Enable Percona Backup
+    shell: sudo systemctl enable pbm-agent
+  - name: Start Percona Backup
+    shell: sudo systemctl start pbm-agent
+...

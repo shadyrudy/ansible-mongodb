@@ -5,16 +5,23 @@ The following project installs the Percona distribution of MongoDB on Ubuntu usi
 The goals of this project are the following:
 1. Install required packages
 1. Create config files and directories
+1. Install Percona's MongoDB database software
 1. Start processes
 1. Create the replica sets
 1. Create user accounts
+1. Install and start the backup process
+   1. Backups managed by Percona Backup for MongoDB 
 
 # Future Goals
-1. Configure backup solution
+1. Create a main.yml file that runs all of the playbooks in order
+1. Schedule backups via Cron job
 1. Configure monitoring solution
 1. Configure sharding
 
 ## ToDos
+1. Use variables correctly for passwords
+   1. Currently, the scripts use ABCABCABC as a password place holder.
+   1. Use either Ansible Vault, Variable file, Hashicorp, etc  
 1. Update the install playbook to use proper package management instead of wget
 1. Update the restart playbook to use the Ansible service module
 1. Fix the official MongoDB install playbook, which is currently failing. 
@@ -82,3 +89,12 @@ Modified software install playbook
 Updated restart mongod script
 Added second inventory file
 Updated replica set init script
+
+## 2022-07-25
+Added install playbooks for Percona Backup for MongoDB
+Added playbook to create PBM user and Role inside of MongoDB
+Creates A PBM role in the MongoDB database Jinja2 template
+Creates the PBM user in the MongoDB database Jinja2 template
+Create the pbm-agent file via Jinja2 template
+Create the pbm-agent.service file via Jinja2 template
+Create the pbm_config.yaml file via Jinja2 template

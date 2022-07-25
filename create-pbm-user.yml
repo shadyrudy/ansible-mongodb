@@ -1,0 +1,33 @@
+---
+# Create the PBM role and user 
+# The role and user allow grant rights to take backups on 
+# any database in the server
+- hosts: primary
+  remote_user: ubuntu
+  become: yes
+  vars:
+    pbm_user: pbm
+    pbm_user_pwd: 5432154321
+    mongodb_admin_user: dba
+    mongodb_admin_pwd: ABCABCABC
+    mongo_port: 27017
+  tasks:
+  - name: Create pbmAnyActionRole role on the admin database
+    template:
+      src: createPBMRole.js.j2
+      dest: /tmp/createPBMRole.js
+      mode: 0644
+    when: mongodb_primary is defined and mongodb_primary
+  - name: Create pbm user on the admin database
+    template:
+      src: createPBMUser.js.j2
+      dest: /tmp/createPBMUser.js
+      mode: 0644
+    when: mongodb_primary is defined and mongodb_primary
+  - name: Run the command to create the PBM Role in the admin database
+    shell: mongo admin -u {{ mongodb_admin_user }} -p {{ mongodb_admin_pwd }} --authenticationDatabase admin --port {{ mongo_port }} < /tmp/createPBMRole.js
+    when: mongodb_primary is defined and mongodb_primary
+  - name: Run the command to create the PBM user in the admin database
+    shell: mongo admin -u {{ mongodb_admin_user }} -p {{ mongodb_admin_pwd }} --authenticationDatabase admin --port {{ mongo_port }} < /tmp/createPBMUser.js
+    when: mongodb_primary is defined and mongodb_primary  
+...
