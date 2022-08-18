@@ -22,6 +22,7 @@
        - glances
        - tofrodos
        - tmux
+       - nfs-common
        #- yum-utils
 
   - name: Install Pymongo

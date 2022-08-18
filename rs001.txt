@@ -1,4 +1,4 @@
 [rs001]
-172.31.29.222 ansible_python_interpreter=/usr/bin/python3 mongodb_primary=True
-172.31.18.33 ansible_python_interpreter=/usr/bin/python3
-172.31.29.240 ansible_python_interpreter=/usr/bin/python3 arbiter_only=True
+10.0.0.1 ansible_python_interpreter=/usr/bin/python3 mongodb_primary=True
+10.0.0.2 ansible_python_interpreter=/usr/bin/python3
+10.0.0.3 ansible_python_interpreter=/usr/bin/python3 arbiter_only=True

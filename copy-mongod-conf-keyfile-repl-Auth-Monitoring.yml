@@ -1,0 +1,21 @@
+---
+# Copy the mongodb.conf file that has
+# keyfile, replication, authentication, and monitoring
+- hosts: dbservers
+  become_user: root
+  become: yes
+  vars:
+     replicationSetName: rs001
+  tasks:
+    - name: Use Jinja2 copy the the mongod.conf with keyfile, replication, auth, and Monitoring
+      template:
+        src: keyfile.Repl.Auth.PMM.mongod.conf.j2
+        dest: /etc/mongod.conf
+    - name: Fix mongod.conf permissions
+      file:
+        state: file
+        path: /etc/mongod.conf
+        owner: mongod
+        group: mongod
+        mode: 0644
+...

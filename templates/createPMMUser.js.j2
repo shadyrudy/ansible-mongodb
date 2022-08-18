@@ -1,0 +1,9 @@
+db.getSiblingDB("admin").createUser({
+    user: "{{ pmm_user }}",
+    pwd: "{{ pmm_user_pwd}}",
+   roles: [
+      { role: "explainRole", db: "admin" },
+      { role: "clusterMonitor", db: "admin" },
+      { role: "read", db: "local" }
+   ]
+})

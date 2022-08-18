@@ -1,0 +1,26 @@
+# Installs Percona Monitoring and Management for MongoDB
+# https://www.percona.com/software/pmm/quickstart
+- hosts: dbservers
+  remote_user: ubuntu
+  become: yes
+  vars:
+    pmm_admin: admin
+    pmm_admin_pwd: admin12345
+    pmm_host: 172.31.0.229
+    pmm_host_port: 443
+    pmm_user: pmm_user
+    pmm_user_pwd: 987987987
+  tasks:
+  - name: Download Percona repo package
+    shell: wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb
+  - name: Install Percona Repo package
+    shell: sudo dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb
+  - name: Update all repos
+    shell: sudo apt-get update
+  - name: Install Percona Monitoring for MongoDB client
+    shell: sudo apt-get install pmm2-client
+  - name: Connect the client to the monitoring server
+    shell: sudo pmm-admin config --server-insecure-tls --server-url=https://{{pmm_admin}}:{{pmm_admin_pwd}}@{{pmm_host}}:{{pmm_host_port}}/ 
+  - name: Register MongoDB with PMM server
+    shell: pmm-admin add mongodb --username={{pmm_user}} --password={{pmm_user_pwd}} --host=127.0.0.1 --port=27017 
+...
