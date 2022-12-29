@@ -2,7 +2,7 @@
 # Create the root user before enabling security
 # The new mongod.conf should be on the server, which enables security
 - hosts: primary
-  remote_user: ubuntu
+  become_user: ubuntu
   become: yes
 
   tasks:

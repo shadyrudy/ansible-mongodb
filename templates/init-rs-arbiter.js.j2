@@ -6,9 +6,12 @@ rs.initiate(
           { _id: {{ loop.index }}
             , host : "{{ h }}:{{ cfgserver_port }}"
 	    , priority: 1 
+{% id "arb" in h %}
+             , arbiterOnly: true 
+{% endif %}
           }
 {% if not loop.last %}
-        ,
+         ,
 {% endif %}
 {% endfor %}
      ]

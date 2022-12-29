@@ -1,7 +1,7 @@
 # Installs Percona Monitoring and Management for MongoDB
 # https://www.percona.com/software/pmm/quickstart
 - hosts: dbservers
-  remote_user: ubuntu
+  become_user: ubuntu
   become: yes
   vars:
     pmm_admin: admin

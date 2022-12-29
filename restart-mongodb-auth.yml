@@ -1,0 +1,17 @@
+---
+# Restarts MongoDB instances with authorization
+# This ensures a clean shutdown, versus simply
+# stopping and restarting the mongod service
+- hosts: dbservers
+  become_user: ubuntu
+  become: yes
+  vars:
+    user: dba
+    pwd: ABCABCABC
+    mongo_port: 27017
+  tasks:
+    - name: Stop MongoDB using shutdownServer 
+      shell: mongo --eval "db.getSiblingDB(\"admin\").shutdownServer()" -host localhost --port {{ mongo_port }} -u {{ user }} -p {{ pwd }}
+    - name: Restart mongodb with mongod.conf
+      shell: sudo systemctl start mongod.service
+...

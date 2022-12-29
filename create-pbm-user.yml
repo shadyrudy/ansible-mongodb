@@ -3,7 +3,7 @@
 # The role and user allow grant rights to take backups on 
 # any database in the server
 - hosts: primary
-  remote_user: ubuntu
+  become_user: ubuntu
   become: yes
   vars:
     pbm_user: pbm

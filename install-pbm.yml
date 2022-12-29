@@ -8,7 +8,7 @@
 # rhel_ubuntu_dir = sysconfig 
 # rhel_ubuntu_lib = /usr/lib/systemd/system/pbm-agent.service
 - hosts: dbservers
-  remote_user: ubuntu
+  become_user: ubuntu
   become: yes
   vars:
     rhel_ubuntu_dir: default

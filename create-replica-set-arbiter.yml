@@ -1,0 +1,27 @@
+---
+# Create a file that initilizes the replica set
+# using the hosts in the host file. The template sets
+# up one node as an Arbiter. The Arbiter's name starts
+# with Arb in this example, but should be modified for
+# with the correct server name. 
+# The file is written to /tmp/init-rs.js and then
+# executed by the mongo shell.
+- hosts: rs001
+  become: yes
+  become_user: root
+  vars:
+    replicaSetName: rs001
+    cfgserver_port: 27017
+    mongo_port: 27017
+  tasks:
+  - name: Render the template to initiate replica set on the Primary Node
+    template:
+      src:  templates/init-rs-arbiter.js.j2
+      dest: /tmp/init-rs-arbiter.js
+      mode: 0644
+    when: mongodb_primary is defined and mongodb_primary
+
+  - name: Run the init command for the replica set on the Primary node 
+    shell: mongo --host localhost --port {{ mongo_port }} < /tmp/init-rs-arbiter.js
+    when: mongodb_primary is defined and mongodb_primary
+...

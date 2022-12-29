@@ -1,9 +1,13 @@
 ---
-# Create the required directories and files
+# Create a file that initilizes the replica set
+# using the hosts in the host file. 
+# The file is written to /tmp/init-rs.js and then
+# executed by the mongo shell. 
 - hosts: rs001
   become: yes
   become_user: root
   vars:
+    replicaSetName: rs001
     cfgserver_port: 27017
     mongo_port: 27017
   tasks:

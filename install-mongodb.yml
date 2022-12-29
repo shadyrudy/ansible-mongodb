@@ -2,7 +2,7 @@
 # Basic install for MongoDB
 # https://cloudmesh.github.io/classes/lesson/devops/ansible/ansible-appendix.html
 - hosts: triserver
-  remote_user: ubuntu
+  become_user: ubuntu
   become: yes
   tasks:
   - name: Import the public key used by the package management system

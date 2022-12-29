@@ -3,11 +3,11 @@
 # The role and user are used to monitor MongoDB via
 # Percona Monitoring and Management (PMM)
 - hosts: dbservers
-  remote_user: ubuntu
+  become_user: ubuntu
   become: yes
   vars:
-    pbm_user: pmm_user
-    pbm_user_pwd: 987987987
+    pmm_user: pmm_user
+    pmm_user_pwd: 987987987
     mongodb_admin_user: dba
     mongodb_admin_pwd: ABCABCABC
     mongo_port: 27017
@@ -22,9 +22,9 @@
       src: createPMMUser.js.j2
       dest: /tmp/createPMMUser.js
       mode: 0644
-  - name: Run the command to create the PBM Role in the admin database
+  - name: Run the command to create the pmm Role in the admin database
     shell: mongo admin -u {{ mongodb_admin_user }} -p {{ mongodb_admin_pwd }} --authenticationDatabase admin --port {{ mongo_port }} < /tmp/createPMMRole.js
-  - name: Run the command to create the PBM user in the admin database
+  - name: Run the command to create the pmm user in the admin database
     shell: mongo admin -u {{ mongodb_admin_user }} -p {{ mongodb_admin_pwd }} --authenticationDatabase admin --port {{ mongo_port }} < /tmp/createPMMUser.js
 ...
 

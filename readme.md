@@ -55,7 +55,7 @@ You can specify the Pyton install location if the playbooks complain. Simply upd
 Ensure that your ansible.conf has the at least the following items:
 1. A default inventory file location
     1. inventory=/etc/ansible/hosts 
-1. remote_user = {username} 
+1. become_user = {username} 
 1. SSH key location
     1. private_key_file=/home/ubuntu/documents/mykey.pem
 
@@ -98,3 +98,9 @@ Creates the PBM user in the MongoDB database Jinja2 template
 Create the pbm-agent file via Jinja2 template
 Create the pbm-agent.service file via Jinja2 template
 Create the pbm_config.yaml file via Jinja2 template
+
+## 2022-12-29
+Updated remaining playbooks from remote_user to become_user
+Updated replica set init script and template to include replica set name
+Created replica set init script and template with an arbiter
+Created script to restart MongoDB with authorization using shutdownServer()
