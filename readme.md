@@ -14,7 +14,11 @@ The goals of this project are the following:
 
 # Future Goals
 1. Create a main.yml file that runs all of the playbooks in order
-1. Schedule backups via Cron job
+1. Backups via Percona Backup for MongoDB
+   1. Fix permissions on the backup directory
+   1. Create backup group with access to the backup directory
+   1. Start the backup service as mongod
+   1. Schedule backups via Cron job
 1. Configure monitoring solution
 1. Configure sharding
 
@@ -50,7 +54,8 @@ You can specify the Pyton install location if the playbooks complain. Simply upd
 [dbservers]
 10.1.1.1 ansible_python_interpreter=/usr/bin/python3
 ```
-
+### Replica Set with an Arbiter 
+One of the playbooks intilizes a replica set with an Arbtier. Currently, the template looks for a specific name pattern, namely 'arb'. Hosts matching this name will be set up as an arbiter.
 ## ansible.conf
 Ensure that your ansible.conf has the at least the following items:
 1. A default inventory file location
@@ -74,33 +79,33 @@ To run the playbooks, you'll need to install the following packages.
 
 # Version History
 ## 2022-07-07
-Initial commit. 
-Added all files
-Excluded secrets and made a generic inventory file.
+1. Initial commit. 
+1. Added all files
+1. Excluded secrets and made a generic inventory file.
 
 ## 2022-07-11
-Added file checker to check permissions
-Added file fixer to fix permissions
-Added three versoins of mongod.conf
-Modified keyfile to copy 1 version of mongod.conf
-Modified create replicate set playbook
-Modified percona install playbook
-Modified software install playbook
-Updated restart mongod script
-Added second inventory file
-Updated replica set init script
+1. Added file checker to check permissions
+1. Added file fixer to fix permissions
+1. Added three versoins of mongod.conf
+1. Modified keyfile to copy 1 version of mongod.conf
+1. Modified create replicate set playbook
+1. Modified percona install playbook
+1. Modified software install playbook
+1. Updated restart mongod script
+1. Added second inventory file
+1. Updated replica set init script
 
 ## 2022-07-25
-Added install playbooks for Percona Backup for MongoDB
-Added playbook to create PBM user and Role inside of MongoDB
-Creates A PBM role in the MongoDB database Jinja2 template
-Creates the PBM user in the MongoDB database Jinja2 template
-Create the pbm-agent file via Jinja2 template
-Create the pbm-agent.service file via Jinja2 template
-Create the pbm_config.yaml file via Jinja2 template
+1. Added install playbooks for Percona Backup for MongoDB
+1. Added playbook to create PBM user and Role inside of MongoDB
+1. Creates A PBM role in the MongoDB database Jinja2 template
+1. Creates the PBM user in the MongoDB database Jinja2 template
+1. Create the pbm-agent file via Jinja2 template
+1. Create the pbm-agent.service file via Jinja2 template
+1. Create the pbm_config.yaml file via Jinja2 template
 
 ## 2022-12-29
-Updated remaining playbooks from remote_user to become_user
-Updated replica set init script and template to include replica set name
-Created replica set init script and template with an arbiter
-Created script to restart MongoDB with authorization using shutdownServer()
+1. Updated remaining playbooks from remote_user to become_user
+1. Updated replica set init script and template to include replica set name
+1. Created replica set init script and template with an arbiter
+1. Created script to restart MongoDB with authorization using shutdownServer()
