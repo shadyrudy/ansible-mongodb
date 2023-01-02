@@ -29,6 +29,7 @@ The goals of this project are the following:
 1. Update the install playbook to use proper package management instead of wget
 1. Update the restart playbook to use the Ansible service module
 1. Fix the official MongoDB install playbook, which is currently failing. 
+1. Add a backup group that includes the mongod and current user, so we can look at shared storage backups.
 
 # Calling the Ansible Playbooks
 You can call the playbooks using the following syntax

@@ -2,3 +2,4 @@
 *.pem
 files/mongodb-keyfile
 inventory.txt
+scratch.txt
